@@ -14,7 +14,6 @@ To set this up, you will first need to host the server. If you know how to do th
 
 If you do end up using PythonAnywhere (its free), you can easily create a web app (select `Flask` and the [*newest* version of Python](https://www.python.org/downloads/) when prompted), and than you can simply delete the hello world template and paste in the `server.py` in this repository, and reload your app. You should be good).
 
-
 ### CloudRepo Setup
 
 After completing the server setup, you will need to head on over to CloudRepo and create a webhook.  You will want to follow [this guide](https://www.cloudrepo.io/docs/webhooks.html#creating-a-cloudrepo-webhook) - **select JSON as the type**.
