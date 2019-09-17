@@ -1,2 +1,5 @@
 theme: jekyll-theme-slate
 title: Download Analytics
+github:
+  owner_name: "CloudRepo"
+show_downloads: true
