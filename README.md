@@ -1,37 +1,22 @@
-## Welcome to GitHub Pages
+<h1 align="center">
+  <img src="https://www.cloudrepo.io/assets/img/logo/square/CloudRepo-Square-Brand-Blue.png" alt="cloudrepo">
+</h1>
 
-You can use the [editor on GitHub](https://github.com/CloudRepoOSS/download-analytics/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+## Download Analytics
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Download analytics is a simple system to track artifact download counts, built on [Flask](https://palletsprojects.com/p/flask/) and [Annie](https://github.com/annieapp/annie) technologies.
 
-### Markdown
+## Setup
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Server Setup
 
-```markdown
-Syntax highlighted code block
+To set this up, you will first need to host the server. If you know how to do this, go right ahead.  Otherwise, use a hosting provider ([PythonAnywhere](https://pythonanywhere.com) is great for this) to set it up simply.
 
-# Header 1
-## Header 2
-### Header 3
+If you do end up using PythonAnywhere (its free), you can easily create a web app (select `Flask` and the [*newest* version of Python](https://www.python.org/downloads/) when prompted), and than you can simply delete the hello world template and paste in the `server.py` in this repository, and reload your app. You should be good).
 
-- Bulleted
-- List
 
-1. Numbered
-2. List
+### CloudRepo Setup
 
-**Bold** and _Italic_ and `Code` text
+After completing the server setup, you will need to head on over to CloudRepo and create a webhook.  You will want to follow [this guide](https://www.cloudrepo.io/docs/webhooks.html#creating-a-cloudrepo-webhook) - **select JSON as the type**.
 
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/CloudRepoOSS/download-analytics/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+*This guide will be completed soon*
