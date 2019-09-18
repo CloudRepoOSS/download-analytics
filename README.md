@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://www.cloudrepo.io/assets/img/logo/square/CloudRepo-Square-Brand-Blue.png" alt="CloudRepo Logo">
+  <img src="https://cloudrepo.io/assets/img/logo/square/CloudRepo-Square-Brand-Blue.png" alt="CloudRepo Logo">
 </h1>
 
 ## Download Analytics :chart_with_upwards_trend:
@@ -17,5 +17,7 @@ If you do end up using PythonAnywhere (its free), you can easily create a web ap
 ### CloudRepo Setup :pick:
 
 After completing the server setup, you will need to head on over to CloudRepo and create a webhook.  You will want to follow [this guide](https://www.cloudrepo.io/docs/webhooks.html#creating-a-cloudrepo-webhook) - **select JSON as the type**.
+
+-------
 
 *This guide will be completed soon*
