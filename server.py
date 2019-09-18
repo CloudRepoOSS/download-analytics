@@ -3,6 +3,7 @@ import logging
 import sys
 import os
 import json
+from filehandlers import AbstractFile, FileManipulator
 from io import TextIOWrapper
 
 # init app
@@ -18,23 +19,20 @@ app.logger.info("-- CloudRepo Download Analytics Server v1.0.0 --")
 app.logger.info("-- This software is under the Apache 2.0 license. --")
 app.logger.info("-- Source: https://github.com/CloudRepoOSS/download-analytics --")
 
+globaljson: AbstractFile = AbstractFile("save.json")
+jsonmanip: FileManipulator(globaljson)
+
 # save file init stuff
-# todo: use filehandlers (https://filehandlers.rdil.rocks) for easier interfacing
-ourjson = None
+
 if os.path.exists("save.json"):
-    app.logger.debug("Found save file - attempting to load")
-    with open("save.json", mode="r") as filehandler:
-        ourjson = json.loads(filehandler.read())
-        filehandler.close()
+    app.logger.debug("Found save file - should have loaded via constructor")
 else:
-    mkfile: TextIOWrapper = open("save.json", "a")
-    mkfile.write(
+    globaljson.touch()
+    jsonmanip.write_to_file(
         json.dumps({
             "all": 0
         })
     )
-    ourjson = mkfile.read()
-    mkfile.close()
 
 # list annotation makes this look nice
 common_methods: list = [
@@ -46,10 +44,8 @@ common_methods: list = [
 
 # not exactly thread safe but whatever
 def saveJson():
-    e: TextIOWrapper = open("save.json", "w")
-    e.write(json.dumps(ourjson))
-    e.close()
-    ourjson = json.loads(open("save.json", mode="r").read())
+    jsonmanip.write_to_file(json.dumps(ourjson))
+    jsonmanip.refresh()
 
 
 # homepage
@@ -64,7 +60,8 @@ def homepage() -> flask.Response:
 # webhooks should ping this url if set up correctly
 @app.route("/callback", methods=common_methods)
 def webhook_callback() -> flask.Response:
-    ourjson["all"] = ourjson["all"] + 1
+    cachetmp: list = jsonmanip.cache()
+    cachetmp["all"] = cachetmp["all"] + 1
     saveJson()
     return flask.Response(
         json.dumps({
