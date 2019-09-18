@@ -42,9 +42,8 @@ common_methods: list = [
 ]
 
 
-# not exactly thread safe but whatever
-def saveJson():
-    jsonmanip.write_to_file(json.dumps(ourjson))
+def saveJson(arraylist: list):
+    jsonmanip.write_to_file(json.dumps(arraylist))
     jsonmanip.refresh()
 
 
@@ -62,7 +61,8 @@ def homepage() -> flask.Response:
 def webhook_callback() -> flask.Response:
     cachetmp: list = jsonmanip.cache()
     cachetmp["all"] = cachetmp["all"] + 1
-    saveJson()
+    
+    saveJson(cachetmp)
     return flask.Response(
         json.dumps({
             "success": True
