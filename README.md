@@ -16,7 +16,16 @@ If you do end up using PythonAnywhere (its free), you can easily create a web ap
 
 ### CloudRepo Setup :pick:
 
-After completing the server setup, you will need to head on over to CloudRepo and create a webhook.  You will want to follow [this guide](https://www.cloudrepo.io/docs/webhooks.html#creating-a-cloudrepo-webhook) - **select JSON as the type**.
+After completing the server setup, you will need to head on over to CloudRepo and create a webhook.  You will want to follow [this guide](https://www.cloudrepo.io/docs/webhooks.html#creating-a-cloudrepo-webhook).
+
+**Use these settings** :gear::
+
+* Type: *JSON*
+* Trigger On:
+  * *Download* :white-check-mark:
+  * *Upload* :x:
+  * *Delete* :x:
+* URL: This will be dynamic based on the URL of your instance, but will follow the basic pattern of `https://{SERVER_URL}/callback`
 
 -------
 
