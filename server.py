@@ -70,9 +70,9 @@ common_methods: list = [
 ]
 
 
-def saveJson(arraylist: list):
-    # we have 'arraylist' in memory by now, so this is safe
-    open("save.json", "w").write(json.dumps(arraylist))
+def saveJson(arraydict: dict):
+    # we have 'arraydict' in memory by now, so this is safe
+    open("save.json", "w").write(json.dumps(arraydict))
 
 
 # homepage
@@ -87,7 +87,7 @@ def homepage() -> flask.Response:
 # webhooks should ping this url if set up correctly
 @app.route("/callback", methods=common_methods)
 def webhook_callback() -> flask.Response:
-    app.logger.debug("Got request data: " + translate(flask.request.data))
+    #app.logger.debug("Got request data: " + translate(flask.request.data))
     reqdata: dict = translate(flask.request.data)
     # json parsing/manipulating
     cachetmp: dict = translate_file_input()
