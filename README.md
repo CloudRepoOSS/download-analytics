@@ -27,6 +27,18 @@ After completing the server setup, you will need to head on over to CloudRepo an
   * *Delete*: No
 * URL: This will be dynamic based on the URL of your instance, but will follow the basic pattern of `https://{SERVER_URL}/callback`
 
--------
+You should have the server set up properly if you followed these steps correctly.
 
-*This guide will be completed soon*
+### Configuration :woman_mechanic:
+
+> **Note: when you start the server for the first time, wait for it to boot and start listening, and shut it down after this. It needs to be configured as described in this section!**
+
+After running the server, if all went well, a `save.json` file should have been created in the server's working directory. You will want to open it up with a text editor.
+
+In the text editor, you can tweak these settings:
+
+* :warning: Warning: ***Do not*** modify the `all`, `repos`, or `downloads` fields. They are critical to the analytics and can cause errors. Please leave them alone.
+* `users` field - you can change this to add or remove users that are authorized to view the analytics. You will need at least one user to log in (duh!), and you can add more using the simple format of `"username": password`. To make the JSON valid, you will need to put a comma at the end of the line if there is another user below that one.
+
+Once you are done, you can save the file and reboot the server.
+You can modify the file at any time by re-doing the steps above.
