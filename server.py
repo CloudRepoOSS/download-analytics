@@ -97,7 +97,7 @@ def webhook_callback() -> flask.Response:
     #
     jsonmanip = FileManipulator(AbstractFile("save.json"))
     # json parsing/manipulating
-    cachetmp: list = jsonmanip.cache()
+    cachetmp: list = jsonmanip.get_cache()
     cachetmp["all"] = cachetmp["all"] + 1
     try:
         cachetmp["downloads"][flask.request.data["file-name"]] = cachetmp["downloads"][flask.request.data["file-name"]] + 1
