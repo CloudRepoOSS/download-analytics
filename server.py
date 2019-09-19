@@ -96,17 +96,18 @@ def webhook_callback() -> flask.Response:
     #logging.getLogger().debug("Got request data: " + flask.request.data)
     #
     jsonmanip = FileManipulator(AbstractFile("save.json"))
+    decoded_data = flask.request.data.decode()
     # json parsing/manipulating
     cachetmp: dict = json.loads(jsonmanip.get_cache()[0])
     cachetmp["all"] = cachetmp["all"] + 1
     try:
-        cachetmp["downloads"][flask.request.data["file-name"]] = cachetmp["downloads"][flask.request.data["file-name"]] + 1
+        cachetmp["downloads"][decoded_data["file-name"]] = cachetmp["downloads"][flask.request.data["file-name"]] + 1
     except KeyError:
-        cachetmp["downloads"][flask.request.data["file-name"]] = 1
+        cachetmp["downloads"][decoded_data["file-name"]] = 1
     try:
-        cachetmp["repos"][flask.request.data["repository-id"]] = cachetmp["repos"][flask.request.data["repository-id"]] + 1
+        cachetmp["repos"][decoded_data["repository-id"]] = cachetmp["repos"][flask.request.data["repository-id"]] + 1
     except KeyError:
-        cachetmp["repos"][flask.request.data["repository-id"]] = 1
+        cachetmp["repos"][decoded_data["repository-id"]] = 1
     saveJson(cachetmp)
     return flask.Response(
         json.dumps({
