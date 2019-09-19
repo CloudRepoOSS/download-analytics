@@ -10,6 +10,9 @@ from filehandlers import AbstractFile, FileManipulator
 app = flask.Flask(__name__)
 auth = HTTPBasicAuth()
 
+# create log file for first time
+AbstractFile("server.log").touch()
+
 # set up logging
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
 app.logger.addHandler(logging.FileHandler("server.log", mode="w"))
