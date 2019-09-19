@@ -73,7 +73,7 @@ common_methods: list = [
 
 
 def saveJson(arraylist: list):
-    jsonmanip: FileManipulator(AbstractFile("save.json"))
+    jsonmanip = FileManipulator(AbstractFile("save.json"))
     jsonmanip.write_to_file(json.dumps(arraylist))
     jsonmanip.refresh()
 
