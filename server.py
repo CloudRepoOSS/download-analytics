@@ -18,8 +18,13 @@ app.logger.info("-- CloudRepo Download Analytics Server v1.0.0 --")
 app.logger.info("-- This software is under the Apache 2.0 license. --")
 app.logger.info("-- Source: https://github.com/CloudRepoOSS/download-analytics --")
 
-# save file init stuff
+json_template = {
+    "all": 0,
+    "downloads": {},
+    "repos": {}
+}
 
+# save file init stuff
 if os.path.exists("save.json"):
     app.logger.debug("Found save file - should have loaded via constructor")
 else:
@@ -27,9 +32,7 @@ else:
     globaljson.touch()
     jsonmanip = FileManipulator(globaljson)
     jsonmanip.write_to_file(
-        json.dumps({
-            "all": 0
-        })
+        json.dumps(json_template)
     )
 
 # list annotation makes this look nice
@@ -58,11 +61,19 @@ def homepage() -> flask.Response:
 # webhooks should ping this url if set up correctly
 @app.route("/callback", methods=common_methods)
 def webhook_callback() -> flask.Response:
-    logging.getLogger().debug(flask.request.data)
+    logging.getLogger().debug("Got request data: " + flask.request.data)
     jsonmanip = FileManipulator(AbstractFile("save.json"))
+    # json parsing/manipulating
     cachetmp: list = jsonmanip.cache()
     cachetmp["all"] = cachetmp["all"] + 1
-
+    try:
+        cachetmp["downloads"][flask.request.data["file-name"]] = cachetmp["downloads"][flask.request.data["file-name"]] + 1
+    except KeyError:
+        cachetmp["downloads"][flask.request.data["file-name"]] = 1
+    try:
+        cachetmp["repos"][flask.request.data["repository-id"]] = cachetmp["repos"][flask.request.data["repository-id"]] + 1
+    except KeyError:
+        cachetmp["repos"][flask.request.data["repository-id"]] = 1
     saveJson(cachetmp)
     return flask.Response(
         json.dumps({
