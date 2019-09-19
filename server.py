@@ -4,7 +4,6 @@ import sys
 import os
 import json
 from filehandlers import AbstractFile, FileManipulator
-from io import TextIOWrapper
 
 # init app
 app = flask.Flask(__name__)
@@ -62,7 +61,7 @@ def webhook_callback() -> flask.Response:
     print(flask.request.headers)
     print(flask.request.data)
     print(flask.request.args)
-    jsonmanip: FileManipulator(AbstractFile("save.json"))
+    jsonmanip = FileManipulator(AbstractFile("save.json"))
     cachetmp: list = jsonmanip.cache()
     cachetmp["all"] = cachetmp["all"] + 1
 
