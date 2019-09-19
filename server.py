@@ -4,7 +4,6 @@ import sys
 import os
 import json
 from flask_httpauth import HTTPBasicAuth
-from werkzeug.security import generate_password_hash, check_password_hash
 from filehandlers import AbstractFile, FileManipulator
 
 # init app
@@ -24,33 +23,31 @@ app.logger.info("-- Source: https://github.com/CloudRepoOSS/download-analytics -
 json_template = {
     "all": 0,
     "downloads": {},
-    "repos": {}
+    "repos": {},
+    "users": {
+        # format: "username": "password"
+        "admin": "admin123"
+        # please change this in your save file, this is super insecure !!
+    }
 }
-
-# template code for stats page
-def gen_html(stats: list):
-    return """
-    <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="utf-8">
-            <title>Statistics - CloudRepo Download Analytics Server</title>
-        </head>
-        <body>
-            <h1>Analytics Results</h1>
-            <script type="text/javascript" src="{0}"></script>
-            <script type="text/javascript" src="{1}"></script>
-        </body>
-    </html>
-    """.format(
-        flask.url_for('static', filename='chartcore.min.js'),
-        flask.url_for('static', filename='piechart.min.js')
-    )
 
 
 @auth.error_handler
 def auth_error():
+    app.logger.warning(
+        "User has triggered access denied - potential unauthorized login detected"
+    )
     return "Access Denied!"
+
+
+@auth.verify_password
+def verify_password(username, password):
+    e = FileManipulator(AbstractFile("save.json"))
+    e.refresh()
+    eg = json.loads(e.get_cache()[0])
+    if username in eg["users"]:
+        return eg["users"][username] == password
+    return False
 
 
 # save file init stuff
@@ -109,6 +106,19 @@ def webhook_callback() -> flask.Response:
             "success": True
         }),
         mimetype="text/plain"
+    )
+
+
+@app.route("/stats", methods=common_methods)
+@auth.login_required
+def stats():
+    # login is required for this endpoint for security
+    return flask.render_template(
+        "stats.html",
+        chartcorelink=flask.url_for('static', 'chartcore.min.js'),
+        piechartextlink=flask.url_for('static', 'piechart.min.js'),
+        fontname="",
+        fontlink=""
     )
 
 
