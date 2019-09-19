@@ -3,10 +3,13 @@ import logging
 import sys
 import os
 import json
+from flask_httpauth import HTTPBasicAuth
+from werkzeug.security import generate_password_hash, check_password_hash
 from filehandlers import AbstractFile, FileManipulator
 
 # init app
 app = flask.Flask(__name__)
+auth = HTTPBasicAuth()
 
 # set up logging
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
@@ -23,6 +26,32 @@ json_template = {
     "downloads": {},
     "repos": {}
 }
+
+# template code for stats page
+def gen_html(stats: list):
+    return """
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="utf-8">
+            <title>Statistics - CloudRepo Download Analytics Server</title>
+        </head>
+        <body>
+            <h1>Analytics Results</h1>
+            <script type="text/javascript" src="{0}"></script>
+            <script type="text/javascript" src="{1}"></script>
+        </body>
+    </html>
+    """.format(
+        flask.url_for('static', filename='chartcore.min.js'),
+        flask.url_for('static', filename='piechart.min.js')
+    )
+
+
+@auth.error_handler
+def auth_error():
+    return "Access Denied!"
+
 
 # save file init stuff
 if os.path.exists("save.json"):
