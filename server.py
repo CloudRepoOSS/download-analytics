@@ -95,19 +95,18 @@ def webhook_callback() -> flask.Response:
     # caused by:
     #logging.getLogger().debug("Got request data: " + flask.request.data)
     #
-    jsonmanip = FileManipulator(AbstractFile("save.json"))
-    decoded_data = flask.request.data.decode()
+    reqdata: dict = translate(flask.request.data)
     # json parsing/manipulating
-    cachetmp: dict = json.loads(jsonmanip.get_cache()[0])
+    cachetmp: dict = translate_file_input()
     cachetmp["all"] = cachetmp["all"] + 1
     try:
-        cachetmp["downloads"][decoded_data["file-name"]] = cachetmp["downloads"][flask.request.data["file-name"]] + 1
+        cachetmp["downloads"][reqdata["file-name"]] = cachetmp["downloads"][reqdata["file-name"]] + 1
     except KeyError:
-        cachetmp["downloads"][decoded_data["file-name"]] = 1
+        cachetmp["downloads"][reqdata["file-name"]] = 1
     try:
-        cachetmp["repos"][decoded_data["repository-id"]] = cachetmp["repos"][flask.request.data["repository-id"]] + 1
+        cachetmp["repos"][reqdata["repository-id"]] = cachetmp["repos"][reqdata["repository-id"]] + 1
     except KeyError:
-        cachetmp["repos"][decoded_data["repository-id"]] = 1
+        cachetmp["repos"][reqdata["repository-id"]] = 1
     saveJson(cachetmp)
     return flask.Response(
         json.dumps({
@@ -115,6 +114,14 @@ def webhook_callback() -> flask.Response:
         }),
         mimetype="text/plain"
     )
+
+
+def translate(stream: bytes) -> dict:
+    return json.loads(stream)
+
+
+def translate_file_input() -> dict:
+    return translate(FileManipulator(AbstractFile('save.json')).get_cache()[0])
 
 
 @app.route("/stats", methods=common_methods)
