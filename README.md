@@ -43,10 +43,10 @@ In the text editor, you can tweak these settings:
 Once you are done, you can save the file and reboot the server.
 You can modify the file at any time by re-doing the steps above.
 
-## Issues
+## Issues :rotating_light:
 
 Found a bug? Want a feature added? [Open an issue!](https://github.com/CloudRepoOSS/download-analytics/issues)
 
-## Code of Conduct
+## Code of Conduct :page_with_curl:
 
 Please follow the [code of conduct](https://cloudrepooss.github.io/download-analytics/CODE_OF_CONDUCT) when contributing to make the contributing experience for everyone.
