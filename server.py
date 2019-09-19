@@ -58,8 +58,7 @@ def homepage() -> flask.Response:
 # webhooks should ping this url if set up correctly
 @app.route("/callback", methods=common_methods)
 def webhook_callback() -> flask.Response:
-    print(flask.request.data)
-    print(flask.request.args)
+    logging.getLogger().debug(flask.request.data)
     jsonmanip = FileManipulator(AbstractFile("save.json"))
     cachetmp: list = jsonmanip.cache()
     cachetmp["all"] = cachetmp["all"] + 1
