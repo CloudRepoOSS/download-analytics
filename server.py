@@ -118,7 +118,8 @@ def stats():
         chartcorelink=flask.url_for('static', 'chartcore.min.js'),
         piechartextlink=flask.url_for('static', 'piechart.min.js'),
         fontname="Roboto",
-        fontlink="https://fonts.googleapis.com/css?family=Roboto"
+        fontlink="https://fonts.googleapis.com/css?family=Roboto",
+        data=json.loads(FileManipulator(AbstractFile("save.json")).get_cache()[0])
     )
 
 
