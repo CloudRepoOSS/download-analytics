@@ -117,8 +117,8 @@ def stats():
         "stats.html",
         chartcorelink=flask.url_for('static', 'chartcore.min.js'),
         piechartextlink=flask.url_for('static', 'piechart.min.js'),
-        fontname="",
-        fontlink=""
+        fontname="Roboto",
+        fontlink="https://fonts.googleapis.com/css?family=Roboto"
     )
 
 
