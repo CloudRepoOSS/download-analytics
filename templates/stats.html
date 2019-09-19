@@ -12,7 +12,30 @@
     </head>
     <body>
         <h1>Analytics Results</h1>
+        
+        <h2>Overall Downloads</h2>
+        <span>{{ overallcount }}</span>
+        
+        <hr/>
+        
+        <h2>Downloads by File Name</h2>
+        
+        <div id="by-file-name-container">
+        </div>
+        
+        <hr/>
+        
+        <h2>Downloads by Repository Name</h2>
+        
+        <div id="by-repo-name-container">
+        </div>
+        
         <script type="text/javascript" src="{{ chartcorelink }}"></script>
         <script type="text/javascript" src="{{ piechartextlink }}"></script>
+        <script type="text/javascript">
+            anychart.onDocumentReady(function() {
+                // chart grouping lambda: .group(value => {value >= 1000});
+            });
+        </script>
     </body>
 </html>
