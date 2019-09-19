@@ -1,2 +1,3 @@
 Flask>=1.0.2
 filehandlers>=2.7
+Flask-HttpAuth==3.3.0
