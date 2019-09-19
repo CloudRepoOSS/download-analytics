@@ -90,7 +90,11 @@ def homepage() -> flask.Response:
 # webhooks should ping this url if set up correctly
 @app.route("/callback", methods=common_methods)
 def webhook_callback() -> flask.Response:
-    logging.getLogger().debug("Got request data: " + flask.request.data)
+    #
+    # fixme: TypeError: can only concatenate str (not "bytes") to str
+    # caused by:
+    #logging.getLogger().debug("Got request data: " + flask.request.data)
+    #
     jsonmanip = FileManipulator(AbstractFile("save.json"))
     # json parsing/manipulating
     cachetmp: list = jsonmanip.cache()
