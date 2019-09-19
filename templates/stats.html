@@ -57,7 +57,7 @@
                         {% endfor %}
                     ]);
                     filenamechart.title('Downloads by Repository Name').group(value => {value >= 1000});
-                    filenamechart.container("by-file-name-container");
+                    filenamechart.container("by-repo-name-container");
                     filenamechart.draw();
                  {% endif %}
             });
