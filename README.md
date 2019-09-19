@@ -22,9 +22,9 @@ After completing the server setup, you will need to head on over to CloudRepo an
 
 * Type: *JSON*
 * Trigger On:
-  * *Download* :ballot_box_with_check:
-  * *Upload* :x:
-  * *Delete* :x:
+  * *Download*: Yes
+  * *Upload*: No
+  * *Delete*: No
 * URL: This will be dynamic based on the URL of your instance, but will follow the basic pattern of `https://{SERVER_URL}/callback`
 
 -------
