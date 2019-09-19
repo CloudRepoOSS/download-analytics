@@ -5,7 +5,7 @@
         <title>Statistics - CloudRepo Download Analytics Server</title>
         <link href="{{ fontlink }}" rel="stylesheet">
         <style>
-            p, h1, h2, span {
+            p, b, h1, h2, span {
                 font-family: '{{ fontname }}', 'sans-serif';
             }
         </style>
@@ -21,6 +21,9 @@
         <h2>Downloads by File Name</h2>
         
         <div id="by-file-name-container">
+            {% if len(data["downloads"]) == 0 %}
+            <span><b>No data yet! Check back later.</b></span>
+            {% endif %}
         </div>
         
         <hr/>
@@ -28,13 +31,35 @@
         <h2>Downloads by Repository Name</h2>
         
         <div id="by-repo-name-container">
+            {% if len(data["repos"]) == 0 %}
+            <span><b>No data yet! Check back later.</b></span>
+            {% endif %}
         </div>
         
         <script type="text/javascript" src="{{ chartcorelink }}"></script>
         <script type="text/javascript" src="{{ piechartextlink }}"></script>
         <script type="text/javascript">
-            anychart.onDocumentReady(function() {
-                // chart grouping lambda: .group(value => {value >= 1000});
+            anychart.onDocumentReady(() => {
+                {% if len(data["downloads"]) != 0 %}
+                    var filenamechart = anychart.pie([
+                        {% for filename, dlcount in data["downloads"] %}
+                        ['{{ filename }}', {{ dlcount }}],
+                        {% endfor %}
+                    ]);
+                    filenamechart.title('Downloads by File Name').group(value => {value >= 1000});
+                    filenamechart.container("by-file-name-container");
+                    filenamechart.draw();
+                 {% endif %}
+                 {% if len(data["repos"]) != 0 %}
+                    var reponamechart = anychart.pie([
+                        {% for reponame, dlcount in data["repos"] %}
+                        ['{{ filename }}', {{ dlcount }}],
+                        {% endfor %}
+                    ]);
+                    filenamechart.title('Downloads by Repository Name').group(value => {value >= 1000});
+                    filenamechart.container("by-file-name-container");
+                    filenamechart.draw();
+                 {% endif %}
             });
         </script>
     </body>
