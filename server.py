@@ -45,9 +45,7 @@ def auth_error():
 
 @auth.verify_password
 def verify_password(username, password):
-    e = FileManipulator(AbstractFile("save.json"))
-    e.refresh()
-    eg = json.loads(e.get_cache()[0])
+    eg = translate_file_input()
     if username in eg["users"]:
         return eg["users"][username] == password
     return False
@@ -74,10 +72,7 @@ common_methods: list = [
 
 def saveJson(arraylist: list):
     # we have 'arraylist' in memory by now, so this is safe
-    jsonmanip = FileManipulator(AbstractFile("save.json"))
-    jsonmanip.clear_file()
-    jsonmanip.write_to_file(json.dumps(arraylist))
-    jsonmanip.refresh()
+    open("save.json", "w").write(json.dumps(arraylist))
 
 
 # homepage
@@ -92,11 +87,7 @@ def homepage() -> flask.Response:
 # webhooks should ping this url if set up correctly
 @app.route("/callback", methods=common_methods)
 def webhook_callback() -> flask.Response:
-    #
-    # fixme: TypeError: can only concatenate str (not "bytes") to str
-    # caused by:
-    #logging.getLogger().debug("Got request data: " + flask.request.data)
-    #
+    app.logger.debug("Got request data: " + translate(flask.request.data))
     reqdata: dict = translate(flask.request.data)
     # json parsing/manipulating
     cachetmp: dict = translate_file_input()
@@ -118,6 +109,7 @@ def webhook_callback() -> flask.Response:
     )
 
 
+# we only want bytes in because strings are much easier to work with
 def translate(stream: bytes) -> dict:
     return json.loads(stream)
 
