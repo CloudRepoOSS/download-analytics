@@ -73,7 +73,9 @@ common_methods: list = [
 
 
 def saveJson(arraylist: list):
+    # we have 'arraylist' in memory by now, so this is safe
     jsonmanip = FileManipulator(AbstractFile("save.json"))
+    jsonmanip.clear_file()
     jsonmanip.write_to_file(json.dumps(arraylist))
     jsonmanip.refresh()
 
