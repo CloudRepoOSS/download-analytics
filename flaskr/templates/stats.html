@@ -35,7 +35,6 @@
                 filenamechart.title('Downloads by File Name');
                 filenamechart.container("by-file-name-container");
                 filenamechart.draw();
-                {% if data["repos"]|length != 0 %}
                 var reponamechart = anychart.pie([
                     {% for key, value in data["repos"].items() %}
                         ['{{ key }}', {{ value }}],
