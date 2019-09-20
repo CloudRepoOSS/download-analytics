@@ -42,8 +42,8 @@
             anychart.onDocumentReady(() => {
                 {% if data["downloads"]|length != 0 %}
                     var filenamechart = anychart.pie([
-                        {% for filename, dlcount in data["downloads"] %}
-                        ['{{ filename }}', {{ dlcount }}],
+                        {% for key, value in data["downloads"] %}
+                            ['{{ key }}', {{ value }}],
                         {% endfor %}
                     ]);
                     filenamechart.title('Downloads by File Name').group(value => {value >= 1000});
@@ -52,8 +52,8 @@
                  {% endif %}
                  {% if data["repos"]|length != 0 %}
                     var reponamechart = anychart.pie([
-                        {% for reponame, dlcount in data["repos"] %}
-                        ['{{ filename }}', {{ dlcount }}],
+                        {% for key, value in data["repos"] %}
+                            ['{{ key }}', {{ value }}],
                         {% endfor %}
                     ]);
                     filenamechart.title('Downloads by Repository Name').group(value => {value >= 1000});
