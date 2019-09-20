@@ -124,8 +124,8 @@ def stats():
     # login is required for this endpoint for security
     return flask.render_template(
         "stats.html",
-        chartcorelink=flask.url_for('static', 'chartcore.min.js'),
-        piechartextlink=flask.url_for('static', 'piechart.min.js'),
+        chartcorelink=flask.url_for('static', filename='chartcore.min.js'),
+        piechartextlink=flask.url_for('static', filename='piechart.min.js'),
         fontname="Roboto",
         fontlink="https://fonts.googleapis.com/css?family=Roboto",
         data=json.loads(FileManipulator(AbstractFile("save.json")).get_cache()[0])
