@@ -50,3 +50,9 @@ Found a bug? Want a feature added? [Open an issue!](https://github.com/CloudRepo
 ## Code of Conduct :page_with_curl:
 
 Please follow the [code of conduct](https://cloudrepooss.github.io/download-analytics/CODE_OF_CONDUCT) when contributing to make the contributing experience for everyone.
+
+## Contributing :computer:
+
+Want to contribute? Please do! We love contributions.
+
+You can take a look at our open [issues](https://github.com/CloudRepoOSS/download-analytics/issues) or [projects](https://github.com/CloudRepoOSS/download-analytics/projects) for things that need to get done.
