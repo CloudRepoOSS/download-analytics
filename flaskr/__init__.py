@@ -10,6 +10,7 @@ from filehandlers import AbstractFile, FileManipulator
 app = flask.Flask(__name__)
 auth = HTTPBasicAuth()
 
+# yeah, we run the bootstrap even if the code is imported
 # create log file for first time
 AbstractFile("server.log").touch()
 
@@ -19,7 +20,7 @@ app.logger.addHandler(logging.FileHandler("server.log", mode="w"))
 app.logger.setLevel(logging.DEBUG)
 
 # enhanced crypto
-app.secret_key = os.urandom(2048)  # many bytes
+app.secret_key = os.urandom(4096)  # many bytes
 
 # basic info for console
 app.logger.info("-- CloudRepo Download Analytics Server v1.0.0 --")
@@ -37,6 +38,29 @@ json_template = {
     }
 }
 
+# save file init stuff
+if os.path.exists("save.json"):
+    app.logger.debug("Found save file - should have loaded via constructor")
+else:
+    globaljson: AbstractFile = AbstractFile("save.json")
+    globaljson.touch()
+    jsonmanip: FileManipulator = FileManipulator(globaljson)
+    jsonmanip.write_to_file(
+        json.dumps(json_template)
+    )
+
+# list annotation makes this look nice
+common_methods: list = [
+    "GET",
+    "POST",
+    "HEAD"
+]
+
+
+def saveJson(arraydict: dict):
+    # we have arraydict in memory by now, so this is safe
+    open("save.json", "w").write(json.dumps(arraydict))
+
 
 @auth.error_handler
 def auth_error():
@@ -52,32 +76,7 @@ def verify_password(username, password):
     if username in eg["users"]:
         return eg["users"][username] == password
     return False
-
-
-# save file init stuff
-if os.path.exists("save.json"):
-    app.logger.debug("Found save file - should have loaded via constructor")
-else:
-    globaljson: AbstractFile = AbstractFile("save.json")
-    globaljson.touch()
-    jsonmanip = FileManipulator(globaljson)
-    jsonmanip.write_to_file(
-        json.dumps(json_template)
-    )
-
-# list annotation makes this look nice
-common_methods: list = [
-    "GET",
-    "POST",
-    "HEAD"
-]
-
-
-def saveJson(arraydict: dict):
-    # we have 'arraydict' in memory by now, so this is safe
-    open("save.json", "w").write(json.dumps(arraydict))
-
-
+    
 # homepage
 @app.route("/", methods=common_methods)
 def homepage() -> flask.Response:
@@ -129,12 +128,12 @@ def stats():
         "stats.html",
         chartcorelink=flask.url_for('static', filename='chartcore.min.js'),
         piechartextlink=flask.url_for('static', filename='piechart.min.js'),
-        fontname="Roboto",
-        fontlink="https://fonts.googleapis.com/css?family=Roboto",
-        data=json.loads(FileManipulator(AbstractFile("save.json")).get_cache()[0])
+        stylesheetlink=flask.url_for('static', filename='dash.css'),
+        data=json.loads(FileManipulator(AbstractFile("save.json")).get_cache()[0]),
+        overallcount=translate_file_input()["all"]  # todo: using translate above breaks stuff
     )
 
 
-# if file is being run directly, lets get this show on the road:
+# if file is being run directly, let's get this show on the road:
 if __name__ == "__main__":
     app.run("127.0.0.1")
