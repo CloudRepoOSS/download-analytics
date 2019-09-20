@@ -1,3 +1,7 @@
-p, b, h1, h2, span {
+p, h1, h2, span {
     font-family: 'Roboto', 'sans-serif';
+}
+
+h1, h2 {
+    text-align: center;
 }
