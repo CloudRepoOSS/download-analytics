@@ -35,7 +35,7 @@
                 filenamechart.title.enabled(false);
                 filenamechart.tooltip().fontFamily("Roboto");
                 filenamechart.container("by-file-name-container");
-                filenamechart.draw(true);
+                filenamechart.draw();
                 var reponamechart = anychart.pie([
                     {% for key, value in data["repos"].items() %}
                         ['{{ key }}', {{ value }}],
@@ -44,7 +44,7 @@
                 reponamechart.title.enabled(false);
                 reponamechart.tooltip().fontFamily("Roboto");
                 reponamechart.container("by-repo-name-container");
-                reponamechart.draw(true);
+                reponamechart.draw();
             });
         </script>
     </body>
