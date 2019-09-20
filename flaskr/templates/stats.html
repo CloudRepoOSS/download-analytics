@@ -32,17 +32,19 @@
                         ['{{ key }}', {{ value }}],
                     {% endfor %}
                 ]);
-                filenamechart.title('Downloads by File Name');
+                filenamechart.title.enabled(false);
+                filenamechart.tooltip().fontFamily("Roboto");
                 filenamechart.container("by-file-name-container");
-                filenamechart.draw();
+                filenamechart.draw(true);
                 var reponamechart = anychart.pie([
                     {% for key, value in data["repos"].items() %}
                         ['{{ key }}', {{ value }}],
                     {% endfor %}
                 ]);
-                reponamechart.title('Downloads by Repository Name');
+                reponamechart.title.enabled(false);
+                reponamechart.tooltip().fontFamily("Roboto");
                 reponamechart.container("by-repo-name-container");
-                reponamechart.draw();
+                reponamechart.draw(true);
             });
         </script>
     </body>
