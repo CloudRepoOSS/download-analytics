@@ -18,6 +18,9 @@ app.logger.addHandler(logging.StreamHandler(sys.stdout))
 app.logger.addHandler(logging.FileHandler("server.log", mode="w"))
 app.logger.setLevel(logging.DEBUG)
 
+# enhanced crypto
+app.secret_key = os.urandom(2048)  # many bytes
+
 # basic info for console
 app.logger.info("-- CloudRepo Download Analytics Server v1.0.0 --")
 app.logger.info("-- This software is under the Apache 2.0 license. --")
