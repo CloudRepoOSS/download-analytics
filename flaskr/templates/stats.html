@@ -46,7 +46,11 @@
                             ['{{ key }}', {{ value }}],
                         {% endfor %}
                     ]);
-                    filenamechart.title('Downloads by File Name').group(value => {value >= 1000});
+                    filenamechart.title('Downloads by File Name');
+                    filenamechart.legend()
+                        .position('center-bottom')
+                        .itemsLayout('horizontal')
+        .               .align('center');
                     filenamechart.container("by-file-name-container");
                     filenamechart.draw();
                  {% endif %}
@@ -56,7 +60,11 @@
                             ['{{ key }}', {{ value }}],
                         {% endfor %}
                     ]);
-                    reponamechart.title('Downloads by Repository Name').group(value => {value >= 1000});
+                    reponamechart.title('Downloads by Repository Name');
+                    reponamechart.legend()
+                        .position('center-bottom')
+                        .itemsLayout('horizontal')
+        .               .align('center');
                     reponamechart.container("by-repo-name-container");
                     reponamechart.draw();
                  {% endif %}
