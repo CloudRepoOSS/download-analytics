@@ -87,7 +87,7 @@ def homepage() -> flask.Response:
 
 
 # webhooks should ping this url if set up correctly
-@app.route("/callback", methods=common_methods)
+@app.route("/callback", methods=["POST"])
 def webhook_callback() -> flask.Response:
     #app.logger.debug("Got request data: " + translate(flask.request.data))
     reqdata: dict = translate(flask.request.data)
