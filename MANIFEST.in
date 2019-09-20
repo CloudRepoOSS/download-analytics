@@ -1,0 +1,5 @@
+graft static
+graft templates
+include LICENSE
+include requirements.txt
+include README.md
