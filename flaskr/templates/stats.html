@@ -8,62 +8,42 @@
     </head>
     <body>
         <h1>Analytics Results</h1>
-        
-        <h2>Overall Downloads</h2>
-        <span>{{ overallcount }}</span>
-        
+        <span>Overall Downloads: {{ overallcount }}</span>
         <hr/>
-        
         <h2>Downloads by File Name</h2>
-        
         <div id="by-file-name-container">
             {% if data["downloads"]|length == 0 %}
                 <span><b>No data yet! Check back later.</b></span>
             {% endif %}
         </div>
-        
         <hr/>
-        
         <h2>Downloads by Repository Name</h2>
-        
         <div id="by-repo-name-container">
             {% if data["repos"]|length == 0 %}
                 <span><b>No data yet! Check back later.</b></span>
             {% endif %}
         </div>
-        
         <script type="text/javascript" src="{{ chartcorelink }}"></script>
         <script type="text/javascript" src="{{ piechartextlink }}"></script>
         <script type="text/javascript">
             anychart.onDocumentReady(() => {
-                {% if data["downloads"]|length != 0 %}
-                    var filenamechart = anychart.pie([
-                        {% for key, value in data["downloads"].items() %}
-                            ['{{ key }}', {{ value }}],
-                        {% endfor %}
-                    ]);
-                    filenamechart.title('Downloads by File Name');
-                    filenamechart.legend()
-                        .position('center-bottom')
-                        .itemsLayout('horizontal')
-        .               .align('center');
-                    filenamechart.container("by-file-name-container");
-                    filenamechart.draw();
-                 {% endif %}
-                 {% if data["repos"]|length != 0 %}
-                    var reponamechart = anychart.pie([
-                        {% for key, value in data["repos"].items() %}
-                            ['{{ key }}', {{ value }}],
-                        {% endfor %}
-                    ]);
-                    reponamechart.title('Downloads by Repository Name');
-                    reponamechart.legend()
-                        .position('center-bottom')
-                        .itemsLayout('horizontal')
-                        .align('center');
-                    reponamechart.container("by-repo-name-container");
-                    reponamechart.draw();
-                 {% endif %}
+                var filenamechart = anychart.pie([
+                    {% for key, value in data["downloads"].items() %}
+                        ['{{ key }}', {{ value }}],
+                    {% endfor %}
+                ]);
+                filenamechart.title('Downloads by File Name');
+                filenamechart.container("by-file-name-container");
+                filenamechart.draw();
+                {% if data["repos"]|length != 0 %}
+                var reponamechart = anychart.pie([
+                    {% for key, value in data["repos"].items() %}
+                        ['{{ key }}', {{ value }}],
+                    {% endfor %}
+                ]);
+                reponamechart.title('Downloads by Repository Name');
+                reponamechart.container("by-repo-name-container");
+                reponamechart.draw();
             });
         </script>
     </body>
