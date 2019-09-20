@@ -1,5 +1,5 @@
-graft static
-graft templates
+graft flaskr/static
+graft flaskr/templates
 include LICENSE
 include requirements.txt
 include README.md
