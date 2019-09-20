@@ -56,9 +56,9 @@
                             ['{{ key }}', {{ value }}],
                         {% endfor %}
                     ]);
-                    filenamechart.title('Downloads by Repository Name').group(value => {value >= 1000});
-                    filenamechart.container("by-repo-name-container");
-                    filenamechart.draw();
+                    reponamechart.title('Downloads by Repository Name').group(value => {value >= 1000});
+                    reponamechart.container("by-repo-name-container");
+                    reponamechart.draw();
                  {% endif %}
             });
         </script>
