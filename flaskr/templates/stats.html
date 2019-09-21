@@ -23,9 +23,15 @@
                 <span><b>No data yet! Check back later.</b></span>
             {% endif %}
         </div>
+        <hr/>
+        <h2>Downloads by Type</h2>
+        <div id="by-type-container">
+
+        </div>
+        <hr/>
         <script type="text/javascript" src="{{ chartcorelink }}"></script>
         <script type="text/javascript" src="{{ piechartextlink }}"></script>
-        <script type="text/javascript">
+		<script type="text/javascript">
             anychart.onDocumentReady(() => {
                 var filenamechart = anychart.pie([
                     {% for key, value in data["downloads"].items() %}
@@ -43,6 +49,15 @@
                 reponamechart.tooltip().fontFamily("Roboto");
                 reponamechart.container("by-repo-name-container");
                 reponamechart.draw();
+                var typechart = anychart.pie([
+                    ["Maven POM", {{ data["types"]["pom"] }}],
+                    ["JAR File", {{ data["types"]["jar"] }}],
+                    ["SHA/MD5 Hash", {{ data["types"]["crypto"] }}],
+                    ["Other", {{ data["types"]["other"] }}]
+                ]);
+                typechart.tooltip().fontFamily("Roboto");
+                typechart.container("by-type-container");
+                typechart.draw();
             });
         </script>
     </body>
