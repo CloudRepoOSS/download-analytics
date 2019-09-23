@@ -56,7 +56,7 @@
                 reponamechart.draw();
                 var typechart = anychart.pie([
                     ["Maven POM", {{ data["types"]["pom"] }}],
-                    ["JAR File", {{ data["types"]["jar"] }}],
+                    ["JAR File", {{ data["types"]["jarfile"] }}],
                     ["SHA/MD5 Hash", {{ data["types"]["crypto"] }}],
                     ["Other", {{ data["types"]["other"] }}]
                 ]);
