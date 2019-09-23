@@ -25,7 +25,7 @@ After completing the server setup, you will need to head on over to CloudRepo an
   * *Download*: Yes
   * *Upload*: No
   * *Delete*: No
-* URL: This will be dynamic based on the URL of your instance, but will follow the basic pattern of `https://{SERVER_URL}/callback`
+* URL: This will be dynamic based on the URL of your instance, but will follow the basic pattern of `https://{SERVER_URL}/callback` (*no curly braces!*)
 
 You should have the server set up properly if you followed these steps correctly.
 
@@ -37,11 +37,21 @@ After running the server, if all went well, a `save.json` file should have been 
 
 In the text editor, you can tweak these settings:
 
-* :warning: Warning: ***Do not*** modify the `all`, `repos`, or `downloads` fields. They are critical to the analytics and can cause errors. Please leave them alone.
+* :warning: Warning: ***Do not*** modify the `all`, `repos`, `types` or `downloads` fields. They are critical to the analytics and can cause errors. Please leave them alone unless otherwise mentioned here.
 * `users` field - you can change this to add or remove users that are authorized to view the analytics. You will need at least one user to log in (duh!), and you can add more using the simple format of `"username": password`. To make the JSON valid, you will need to put a comma at the end of the line if there is another user below that one.
 
 Once you are done, you can save the file and reboot the server.
 You can modify the file at any time by re-doing the steps above.
+
+## Updating the Server :rocket:
+
+Sometimes, new releases are published that change the configuration format. To migrate from the old version to the new version, you will need to add/migrate some fields.
+
+To start off, download the ZIP or TAR distribution of the newer release, and open the `flaskr/__init__.py` file. You will see a line of the code labeled `json_template`. It is the baseline of the new config. You will need to update your existing config to add any new fields.
+
+> **Note**: Two things you should *not* do are: 1. update the numbers for fields such as `downloads`, which modifies the analytics, and 2. once you are done modifying the config, make sure it is back to only being on the first line (otherwise the parser will break!).
+
+> If at any time your config breaks and you are getting lots of errors from the server, you can delete the file. The default config will be added back the next time you run the server.
 
 ## Issues :rotating_light:
 
