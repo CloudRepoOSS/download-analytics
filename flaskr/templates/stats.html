@@ -10,30 +10,23 @@
         <h1>Analytics Results</h1>
         <span>Overall Downloads: {{ overallcount }}</span>
         <hr/>
-	{% if showfilename %}
-            <h2>Downloads by File Name</h2>
-            <div id="by-file-name-container">
-                {% if data["downloads"]|length == 0 %}
-                    <span><b>No data yet! Check back later.</b></span>
-                {% endif %}
-            </div>
-	    <hr/>
-        {% endif %}
-	{% if showreponame %}
-            <h2>Downloads by Repository Name</h2>
-            <div id="by-repo-name-container">
-                {% if data["repos"]|length == 0 %}
-                    <span><b>No data yet! Check back later.</b></span>
-                {% endif %}
-            </div>
-            <hr/>
-	{% endif %}
-	{% if showfiletype %}
-            <h2>Downloads by Type</h2>
-            <div id="by-type-container">
-	    </div>
-            <hr/>
-	{% endif %}
+        <h2>Downloads by File Name</h2>
+        <div id="by-file-name-container">
+            {% if data["downloads"]|length == 0 %}
+                <span><b>No data yet! Check back later.</b></span>
+            {% endif %}
+        </div>
+	<hr/>
+        <div id="by-repo-name-container">
+            {% if data["repos"]|length == 0 %}
+                <span><b>No data yet! Check back later.</b></span>
+            {% endif %}
+        </div>
+        <hr/>
+        <h2>Downloads by Type</h2>
+        <div id="by-type-container">
+	</div>
+        <hr/>
         <script type="text/javascript" src="{{ chartcorelink }}"></script>
         <script type="text/javascript" src="{{ piechartextlink }}"></script>
         <script type="text/javascript">
