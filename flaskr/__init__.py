@@ -41,6 +41,11 @@ json_template = {
         # format: "username": "password"
         "admin": "admin123"
         # please change this in your save file, this is super insecure !!
+    },
+    "display": {
+        "by-file-name": True,
+        "by-repo-name": True,
+        "by-file-type": True
     }
 }
 
@@ -184,13 +189,17 @@ def translate_file_input() -> dict:
 @auth.login_required
 def stats():
     # login is required for this endpoint for security
+    t = translate_file_input()  # static context
     return flask.render_template(
         "stats.html",
         chartcorelink=flask.url_for('static', filename='chartcore.min.js'),
         piechartextlink=flask.url_for('static', filename='piechart.min.js'),
         stylesheetlink=flask.url_for('static', filename='dash.css'),
-        data=translate_file_input(),
-        overallcount=translate_file_input()["all"]
+        data=t,
+        overallcount=t["all"],
+        show_byfilename=t["display"]["by-file-name"],
+        show_byreponame=t["display"]["by-repo-name"],
+        show_byfiletype=t["display"]["by-file-type"]
     )
 
 
