@@ -63,8 +63,7 @@ else:
 # list annotation makes this look nice
 common_methods: list = [
     "GET",
-    "POST",
-    "HEAD"
+    "POST"
 ]
 
 
