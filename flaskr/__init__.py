@@ -190,10 +190,7 @@ def stats():
         piechartextlink=flask.url_for('static', filename='piechart.min.js'),
         stylesheetlink=flask.url_for('static', filename='dash.css'),
         data=t,
-        overallcount=t["all"],
-        show_byfilename=t["display"]["by-file-name"],
-        show_byreponame=t["display"]["by-repo-name"],
-        show_byfiletype=t["display"]["by-file-type"]
+        overallcount=t["all"]
     )
 
 
