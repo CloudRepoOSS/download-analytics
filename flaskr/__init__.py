@@ -41,11 +41,6 @@ json_template = {
         # format: "username": "password"
         "admin": "admin123"
         # please change this in your save file, this is super insecure !!
-    },
-    "display": {
-        "by-file-name": True,
-        "by-repo-name": True,
-        "by-file-type": True
     }
 }
 
