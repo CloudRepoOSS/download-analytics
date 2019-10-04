@@ -18,12 +18,10 @@
     <header>
       <div class="inner">
         <a href="{{ '/' | absolute_url }}">
-          <h1>{{ site.title | default: site.github.repository_name }}</h1>
+          <h1>{{ site.title }}</h1>
         </a>
         <h2>{{ site.description | default: site.github.project_tagline }}</h2>
-        {% if site.github.is_project_page %}
-          <a href="{{ site.github.repository_url }}" class="button"><small>View project on</small> GitHub</a>
-        {% endif %}
+        <a href="{{ site.github.repository_url }}" class="button"><small>View project on</small> GitHub</a>
       </div>
     </header>
 
@@ -45,9 +43,7 @@
             </a>
           {% endif %}
 
-          {% if site.github.is_project_page %}
-            <p class="repo-owner"><a href="{{ site.github.repository_url }}">{{ site.github.repository_name }}</a> is maintained by <a href="https://cloudrepo.io">{{ site.github.owner_name }}</a>.</p>
-          {% endif %}
+          <p class="repo-owner"><a href="{{ site.github.repository_url }}">{{ site.github.repository_name }}</a> is maintained by <a href="https://cloudrepo.io">{{ site.github.owner_name }}</a>.</p>
         </aside>
       </div>
     </div>
