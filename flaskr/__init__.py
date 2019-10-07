@@ -69,16 +69,11 @@ def update_save_file(arraydict: dict):
 
 @auth.error_handler
 def auth_error():
-    """
-    View to be displayed when the user inputs invalid credentials.
-
-    :return: the view
-    :rtype: str
-    """
+    """View to be displayed when the user inputs invalid credentials."""
     app.logger.warning(
         "User has triggered access denied - potential unauthorized login detected"
     )
-    return "Access Denied!"
+    return "Access Denied!", 500
 
 
 @auth.verify_password
@@ -102,14 +97,9 @@ def verify_password(username, password):
 # homepage
 @app.route("/", methods=common_methods)
 def homepage() -> flask.Response:
-    """
-    Homepage/greeting view
-
-    :return: the homepage text
-    :rtype: flask.Response
-    """
+    """Homepage/greeting view."""
     return flask.Response(
-        "Welcome to this CloudRepo download counting server!",
+        "Welcome to this CloudRepo download analytics server!",
         mimetype="text/plain"
     )
 
@@ -117,12 +107,7 @@ def homepage() -> flask.Response:
 # webhooks should ping this url if set up correctly
 @app.route("/callback", methods=["POST"])
 def webhook_callback() -> flask.Response:
-    """
-    Webhook callback endpoint
-
-    :return: the Response object
-    :rtype: flask.Response
-    """
+    """Webhook callback endpoint."""
     reqdata: dict = translate(flask.request.data)
     # json parsing/manipulating
     cachetmp: dict = translate_file_input()
@@ -170,12 +155,7 @@ def translate(stream: bytes) -> dict:
 
 
 def translate_file_input() -> dict:
-    """
-    Loads the raw bytes of the save file, and translates them to a dict.
-
-    :return: the dict
-    :rtype: dict
-    """
+    """Loads the raw bytes of the save file, and translates them to a dict."""
     return translate(FileManipulator(AbstractFile('save.json')).get_cache()[0])
 
 
@@ -186,9 +166,6 @@ def stats():
     t = translate_file_input()  # static context
     return flask.render_template(
         "stats.html",
-        chartcorelink=flask.url_for('static', filename='chartcore.min.js'),
-        piechartextlink=flask.url_for('static', filename='piechart.min.js'),
-        stylesheetlink=flask.url_for('static', filename='dash.css'),
         data=t,
         overallcount=t["all"]
     )
