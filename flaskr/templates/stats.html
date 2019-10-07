@@ -28,8 +28,8 @@
         <div id="by-type-container">
 	</div>
         <hr/>
-        <script type="text/javascript" src="{{ chartcorelink }}"></script>
-        <script type="text/javascript" src="{{ piechartextlink }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='chartcore.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='piechart.min.js') }}"></script>
         <script type="text/javascript">
             anychart.onDocumentReady(() => {
                 var filenamechart = anychart.pie([
