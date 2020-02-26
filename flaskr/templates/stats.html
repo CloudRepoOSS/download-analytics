@@ -8,7 +8,7 @@
     </head>
     <body>
         <h1>Analytics Results</h1>
-        <span>Overall Downloads: {{ overallcount }}</span>
+        <span>Overall Downloads: {{ data["overallcount"] }}</span>
         <hr/>
         <h2>Downloads by File Name</h2>
         <div id="by-file-name-container">
@@ -25,13 +25,12 @@
         </div>
         <hr/>
         <h2>Downloads by Type</h2>
-        <div id="by-type-container">
-	</div>
+        <div id="by-type-container"></div>
         <hr/>
         <script type="text/javascript" src="{{ url_for('static', filename='chartcore.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='piechart.min.js') }}"></script>
         <script type="text/javascript">
-            anychart.onDocumentReady(() => {
+            anychart.onDocumentReady(function() {
                 var filenamechart = anychart.pie([
                     {% for key, value in data["downloads"].items() %}
                         ['{{ key }}', {{ value }}],
@@ -50,7 +49,7 @@
                 reponamechart.draw();
                 var typechart = anychart.pie([
                     ["Maven POM", {{ data["types"]["pom"] }}],
-                    ["JAR File", {{ data["types"]["jarfile"] }}],
+                    ["Jar File", {{ data["types"]["jar"] }}],
                     ["SHA/MD5 Hash", {{ data["types"]["crypto"] }}],
                     ["Other", {{ data["types"]["other"] }}]
                 ]);

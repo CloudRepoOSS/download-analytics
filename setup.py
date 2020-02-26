@@ -30,7 +30,6 @@ CLASSIFIERS = [
     "Topic :: Internet",
     "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
     "Topic :: Internet :: WWW/HTTP :: Site Management",
-    "Topic :: Multimedia :: Graphics :: Presentation",
     "Topic :: Utilities",
     "Development Status :: 5 - Production/Stable",
     "Natural Language :: English",
@@ -42,6 +41,8 @@ setuptools.setup(
     version="1.0.0",
     author="CloudRepo",
     author_email="support@cloudrepo.io",
+    maintainer="Reece Dunham",
+    maintainer_email="me@rdil.rocks",
     url="https://cloudrepooss.github.io/download-analytics/",
     packages=setuptools.find_packages(),
     long_description=LONG_DESCRIPTION,
@@ -51,9 +52,6 @@ setuptools.setup(
     zip_safe=False,
     project_urls=URLs,
     classifiers=CLASSIFIERS,
-    install_requires=[
-        "Flask>=1.0.2",
-        "Flask-HttpAuth==3.3.0",
-        "filehandlers>=2.7"
-    ]
+    install_requires=open("requirements.txt", "r").readlines(),
+    python_requires=">3.3"
 )

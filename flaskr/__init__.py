@@ -4,35 +4,28 @@ import sys
 import os
 import json
 from flask_httpauth import HTTPBasicAuth
-from filehandlers import AbstractFile, FileManipulator
+from filehandlers import AbstractFile, FileManipulator, OpenModes
+from textwrap import dedent
 
 # init app
 app = flask.Flask(__name__)
 auth = HTTPBasicAuth()
 
-# yeah, we run the bootstrap even if the code is imported
-# create log file for first time
-AbstractFile("server.log").touch()
+app.logger.info("""
+--------      CloudRepo Download Analytics Server v1.0.0     --------
 
-# set up logging
-app.logger.addHandler(logging.StreamHandler(sys.stdout))
-app.logger.addHandler(logging.FileHandler("server.log", mode="w"))
-app.logger.setLevel(logging.DEBUG)
+                    Under the Apache v2.0 license.
+            https://github.com/CloudRepoOSS/download-analytics
 
-# enhanced crypto
-app.secret_key = os.urandom(4096)  # many bytes
-
-# basic info for console
-app.logger.info("-- CloudRepo Download Analytics Server v1.0.0 --")
-app.logger.info("-- This software is under the Apache 2.0 license. --")
-app.logger.info("-- Source: https://github.com/CloudRepoOSS/download-analytics --")
+---------------------------------------------------------------------
+""")
 
 json_template = {
     "all": 0,
     "downloads": {},
     "repos": {},
     "types": {
-        "jarfile": 0,
+        "jar": 0,
         "pom": 0,
         "crypto": 0,
         "other": 0
@@ -44,18 +37,15 @@ json_template = {
     }
 }
 
-# save file init stuff
-if os.path.exists("save.json"):
-    app.logger.debug("Found save file - should have loaded via constructor")
-else:
-    globaljson: AbstractFile = AbstractFile("save.json")
+# Save file creation
+if not os.path.exists("save.json"):
+    globaljson = AbstractFile("save.json")
     globaljson.touch()
-    jsonmanip: FileManipulator = FileManipulator(globaljson)
+    jsonmanip = FileManipulator(globaljson)
     jsonmanip.write_to_file(
         json.dumps(json_template)
     )
 
-# list annotation makes this look nice
 common_methods: list = [
     "GET",
     "POST"
@@ -63,17 +53,19 @@ common_methods: list = [
 
 
 def update_save_file(arraydict: dict):
-    # we have arraydict in memory by now, so this is safe
-    open("save.json", "w").write(json.dumps(arraydict))
+    """Writes the passed dictionary to the save file."""
+
+    open("save.json", mode=OpenModes.WRITE.value).write(json.dumps(arraydict))
 
 
 @auth.error_handler
 def auth_error():
     """View to be displayed when the user inputs invalid credentials."""
+
     app.logger.warning(
-        "User has triggered access denied - potential unauthorized login detected"
+        "A user has triggered access denied - potential unauthorized login detected"
     )
-    return "Access Denied!", 500
+    return "Access Denied!", 401
 
 
 @auth.verify_password
@@ -86,11 +78,13 @@ def verify_password(username, password):
     :return: if the credentials are correct
     :rtype: bool
     """
-    eg = translate_file_input()
-    if username in eg["users"]:
-        return eg["users"][username] == password
 
-    # username is wrong
+    conf = translate_file_input()
+    if username in conf["users"]:
+        # username is in the config, check if password is right
+        return conf["users"][username] == password
+
+    # username is not in the config
     return False
 
 
@@ -98,49 +92,55 @@ def verify_password(username, password):
 @app.route("/", methods=common_methods)
 def homepage() -> flask.Response:
     """Homepage/greeting view."""
+
     return flask.Response(
-        "Welcome to this CloudRepo download analytics server!",
+        dedent("""\
+        Welcome to this CloudRepo download analytics server.
+        If you are an administrator, you can visit /stats to see the analytics.
+        """),
         mimetype="text/plain"
     )
 
 
-# webhooks should ping this url if set up correctly
 @app.route("/callback", methods=["POST"])
 def webhook_callback() -> flask.Response:
     """Webhook callback endpoint."""
+
     reqdata: dict = translate(flask.request.data)
-    # json parsing/manipulating
-    cachetmp: dict = translate_file_input()
-    cachetmp["all"] = cachetmp["all"] + 1
-    # in theory with these try/except statements, a KeyError *could*
-    # be thrown within the except blocks resulting in data loss, but
-    # I don't think the complex logic is worth it.
+
+    conf = translate_file_input()
+    conf["all"] = conf["all"] + 1
+
     try:
-        cachetmp["downloads"][reqdata["file-name"]] += 1
+        conf["downloads"][reqdata["file-name"]] += 1
     except KeyError:
-        cachetmp["downloads"][reqdata["file-name"]] = 1
+        conf["downloads"][reqdata["file-name"]] = 1
     try:
-        cachetmp["repos"][reqdata["repository-id"]] += 1
+        conf["repos"][reqdata["repository-id"]] += 1
     except KeyError:
-        cachetmp["repos"][reqdata["repository-id"]] = 1
-    # have this logic first to prevent stuff like .jar.sha256
-    if "sha" in reqdata["filename"] or "md5":
-        cachetmp["types"]["crypto"] += 1
-        # abort early
-        update_save_file(cachetmp)
+        conf["repos"][reqdata["repository-id"]] = 1
+
+    # have this logic first to prevent file names like .jar.sha256
+    if "sha" in reqdata["filename"] or "md5" in reqdata["filename"]:
+        conf["types"]["crypto"] += 1
+        # exit early, since we have saved all needed data by now
+        update_save_file(conf)
         return flask.Response(
             json.dumps({
                 "success": True
             }),
             mimetype="application/json"
         )
-    if ".xml" in reqdata["filename"]:
-        cachetmp["types"]["pom"] += 1
+
+    if "pom" in reqdata["filename"]:
+        conf["types"]["pom"] += 1
     elif ".jar" in reqdata["filename"]:
-        cachetmp["types"]["pom"] += 1
+        conf["types"]["jar"] += 1
     else:
-        cachetmp["other"] += 1
-    update_save_file(cachetmp)
+        conf["other"] += 1
+
+    update_save_file(conf)
+
     return flask.Response(
         json.dumps({
             "success": True
@@ -163,11 +163,9 @@ def translate_file_input() -> dict:
 @auth.login_required
 def stats():
     # login is required for this endpoint for security
-    t = translate_file_input()  # static context
     return flask.render_template(
         "stats.html",
-        data=t,
-        overallcount=t["all"]
+        data=translate_file_input()
     )
 
 

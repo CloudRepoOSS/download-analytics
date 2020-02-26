@@ -10,7 +10,7 @@ Download analytics is a simple system to track artifact download counts, built o
 
 To set this up, you will first need to host the server. If you know how to do this, go right ahead.  Otherwise, use a hosting provider ([PythonAnywhere :link:](https://pythonanywhere.com) is great for this) to set it up simply.
 
-If you do end up using PythonAnywhere (its free), you can easily create a web app (select `Flask` and the [*newest* version of Python](https://www.python.org/downloads/) when prompted), and than you can simply delete the hello world template and paste in the `server.py` in this repository, and reload your app. You should be good).
+If you do end up using PythonAnywhere (its free), you can easily create a web app (select `Flask` and the newest version of Python when prompted), and then you can simply delete the hello world template and paste in the `server.py` in this repository, and reload your app. You should be good).
 
 ### CloudRepo Setup :pick:
 
@@ -35,8 +35,8 @@ After running the server, if all went well, a `save.json` file should have been 
 
 In the text editor, you can tweak these settings:
 
-* :warning: Warning: ***Do not*** modify the `all`, `repos`, `types` or `downloads` fields. They are critical to the analytics and can cause errors. Please leave them alone unless otherwise mentioned here.
-* `users` field - you can change this to add or remove users that are authorized to view the analytics. You will need at least one user to log in (duh!), and you can add more using the simple format of `"username": password`. To make the JSON valid, you will need to put a comma at the end of the line if there is another user below that one.
+* :warning: Warning: *Do not* modify the `all`, `repos`, `types` or `downloads` fields. They are critical to the analytics and can cause errors. Please leave them alone unless otherwise mentioned here.
+* `users` field - you can change this to add or remove users that are authorized to view the analytics. You will need at least one user to log in, and you can add more using the simple format of `"username": password`. To make the JSON valid, you will need to put a comma at the end of the line if there is another user below that one.
 
 Once you are done, you can save the file and reboot the server.
 You can modify the file at any time by re-doing the steps above.
@@ -62,5 +62,4 @@ Please follow the [code of conduct](https://cloudrepooss.github.io/download-anal
 ## Contributing :computer:
 
 Want to contribute? Please do! We love contributions.
-
 You can take a look at our open [issues](https://github.com/CloudRepoOSS/download-analytics/issues) or [projects](https://github.com/CloudRepoOSS/download-analytics/projects) for things that need to get done.
