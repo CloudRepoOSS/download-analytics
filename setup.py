@@ -20,7 +20,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.8",
     "Framework :: Flask",
     "Operating System :: OS Independent",
-    "License :: OSI Approved :: Apache Software License"
+    "License :: OSI Approved :: Apache Software License",
     "Intended Audience :: Developers",
     "Topic :: System",
     "Topic :: System :: Filesystems",
