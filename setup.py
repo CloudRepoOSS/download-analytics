@@ -38,7 +38,7 @@ CLASSIFIERS = [
 setuptools.setup(
     name="CloudRepoAnalytics",
     description="Flask and Annie-based server to keep track of CloudRepo artifact download counts",
-    version="1.0.0",
+    version="2.0.0",
     author="CloudRepo",
     author_email="support@cloudrepo.io",
     maintainer="Reece Dunham",

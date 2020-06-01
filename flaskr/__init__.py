@@ -12,7 +12,7 @@ app = flask.Flask(__name__)
 auth = HTTPBasicAuth()
 
 app.logger.info("""
---------      CloudRepo Download Analytics Server v1.0.0     --------
+--------      CloudRepo Download Analytics Server v2.0.0     --------
 
                     Under the Apache v2.0 license.
             https://github.com/CloudRepoOSS/download-analytics
