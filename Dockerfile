@@ -1,4 +1,4 @@
-FROM python:3.9.7-slim
+FROM python:3.10.0-slim
 
 # add places to path so that some pip-installed packages work
 ENV PATH=.local/bin:~/opt/bin:/root/.local/bin:$PATH
